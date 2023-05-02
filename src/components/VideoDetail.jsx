@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react"
 import { Link,useParams } from "react-router-dom"
 import ReactPlayer from "react-player"
-import { Typography,Box,Stack } from "@mui/material"
+import { Typography,Box,Stack, CircularProgress } from "@mui/material"
 import { CheckCircle } from "@mui/icons-material"
 import {Videos} from './'
 import { fetchFromAPI } from "../utils/fetchFromAPI"
@@ -16,7 +16,7 @@ const VideoDetail = () => {
       fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`).then(
         (data) => setVideos(data.items))
    }, [id])
-  if (!videoDetail?.snippet) return "Loading...";
+  if (!videoDetail?.snippet) return  <Box sx={{ height: '95vh',display:'flex', justifyContent: 'center', alignItems: 'center'}}><CircularProgress/></Box>
   const {snippet:{title,channelId,channelTitle},statistics:{viewCount,likeCount}} = videoDetail
   return (
     <Box minHeight="95vh">
