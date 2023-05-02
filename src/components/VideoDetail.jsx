@@ -11,12 +11,18 @@ const VideoDetail = () => {
   const [videos, setVideos] = useState(null)
   const {id} = useParams()
    useEffect(() => {
+      console.log("Hello");
       fetchFromAPI(`videos?part=snippet,statistics&id=${id}`).then(
       (data) => setVideoDetail(data.items[0]))
+      .catch((e)=> {
+        console.log(e);
+      })
       fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`).then(
-        (data) => setVideos(data.items))
+        (data) => setVideos(data.items)).catch((e)=> {
+          console.log(e);
+        })
    }, [id])
-  if (!videoDetail?.snippet) return  <Box sx={{ height: '95vh',display:'flex', justifyContent: 'center', alignItems: 'center'}}><CircularProgress/></Box>
+  if(!videoDetail) return <Box sx={{ height: '95vh',display:'flex', justifyContent: 'center', alignItems: 'center'}}><CircularProgress/></Box>
   const {snippet:{title,channelId,channelTitle},statistics:{viewCount,likeCount}} = videoDetail
   return (
     <Box minHeight="95vh">
